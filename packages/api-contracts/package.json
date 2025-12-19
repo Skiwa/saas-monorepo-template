@@ -1,0 +1,9 @@
+{
+  "name": "@saas-monorepo-template/api-contracts",
+  "packageManager": "yarn@4.12.0",
+  "version": "1.0.0",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "zod": "^4.2.1"
+  }
+}

@@ -44,7 +44,7 @@ export default tseslint.config(
         },
       ],
       '@typescript-eslint/prefer-readonly': 'error',
-      'no-console': 'warn',
+      'no-console': 'off',
       'prefer-const': 'error',
       'prettier/prettier': 'error',
     },

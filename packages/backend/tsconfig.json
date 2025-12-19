@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "types": ["node"],
+  },
+  "exclude": ["dist", "node_modules"],
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*", "index.ts"],
+  "references": [{ "path": "../api-contracts" }]
+}
