@@ -8,7 +8,9 @@
     "types": ["node"],
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "~/notes-management/*": ["./domains/notes-management/*"],
+      "~/shared/*": ["./shared/*"]
     }
   },
   "exclude": ["dist", "node_modules"],

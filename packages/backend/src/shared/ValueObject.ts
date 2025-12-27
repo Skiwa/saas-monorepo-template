@@ -1,4 +1,13 @@
+import { Effect } from 'effect/index';
 import { isEqual } from 'lodash';
+import { ValidationError } from './ProjectErrors';
+import z from 'zod';
+
+type ValidateSchemaParams<T> = {
+  errorMessage: string;
+  value: unknown;
+  schema: z.ZodSchema<T>;
+};
 
 export abstract class ValueObject<T> {
   public readonly value: T;
@@ -13,5 +22,21 @@ export abstract class ValueObject<T> {
     }
 
     return isEqual(this.value, valueObject.value);
+  }
+
+  public static validateSchema<T>(
+    params: ValidateSchemaParams<T>
+  ): Effect.Effect<T, ValidationError> {
+    const { value, schema, errorMessage } = params;
+
+    const parseResult = schema.safeParse(value);
+
+    if (parseResult.success) {
+      return Effect.succeed(parseResult.data);
+    }
+
+    return Effect.fail(
+      new ValidationError({ message: errorMessage, issues: parseResult.error.issues })
+    );
   }
 }

@@ -1,5 +1,5 @@
 import Fastify, { FastifyInstance } from 'fastify';
-import { HTTPServer } from '~/shared/HttpServer.js';
+import { HTTPServer, RouteHandler } from '~/shared/HttpServer.js';
 
 type FastifyHTTPServerParams = {
   host: string;
@@ -12,6 +12,7 @@ export class FastifyHTTPServer implements HTTPServer {
 
   constructor(private readonly params: FastifyHTTPServerParams) {
     this.fastify = Fastify({
+      disableRequestLogging: true,
       logger: this.params.isProduction
         ? true
         : {
@@ -36,20 +37,81 @@ export class FastifyHTTPServer implements HTTPServer {
       this.fastify.log.info(`Server is running on ${address}`);
     });
 
-    this.setHealthCheckRoutes();
+    this.setupHealthCheckRoutes();
+    this.setupRequestLogging();
   }
 
   async stop(): Promise<void> {
     await this.fastify.close();
   }
 
-  setHealthCheckRoutes(): void {
+  setupHealthCheckRoutes(): void {
     this.fastify.get('/ping', (_, reply) => {
       return reply.status(200).send({ message: 'pong' });
     });
 
     this.fastify.get('/health-check', (_, reply) => {
       return reply.status(200).send({ status: 'healthy', uptime: process.uptime() });
+    });
+  }
+
+  private setupRequestLogging(): void {
+    this.fastify.addHook('preHandler', async (request) => {
+      this.fastify.log.info(
+        {
+          method: request.method,
+          url: request.url,
+          body: request.body,
+        },
+        `${request.id} - Incoming request`
+      );
+
+      return Promise.resolve();
+    });
+
+    this.fastify.addHook('onSend', async (request, reply, payload) => {
+      let parsedPayload = payload;
+      if (typeof payload === 'string') {
+        try {
+          parsedPayload = JSON.parse(payload);
+        } catch {
+          parsedPayload = payload;
+        }
+      }
+
+      this.fastify.log.info(
+        {
+          statusCode: reply.statusCode,
+          method: request.method,
+          url: request.url,
+          body: parsedPayload,
+        },
+        `${request.id} - Request completed`
+      );
+    });
+  }
+
+  delete(path: string, handler: RouteHandler): void {
+    this.fastify.delete(path, async (request, reply) => {
+      await handler({ request, reply });
+    });
+  }
+
+  get(path: string, handler: RouteHandler): void {
+    this.fastify.get(path, async (request, reply) => {
+      await handler({ request, reply });
+    });
+  }
+
+  post(path: string, handler: RouteHandler): void {
+    this.fastify.post(path, async (request, reply) => {
+      await handler({ request, reply });
+    });
+  }
+
+  put(path: string, handler: RouteHandler): void {
+    this.fastify.put(path, async (request, reply) => {
+      await handler({ request, reply });
     });
   }
 }
