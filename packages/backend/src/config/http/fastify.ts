@@ -1,5 +1,5 @@
 import Fastify, { FastifyInstance } from 'fastify';
-import { HTTPServer } from './http-server.js';
+import { HTTPServer } from '~/shared/HttpServer.js';
 
 type FastifyHTTPServerParams = {
   host: string;

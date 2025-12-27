@@ -1,5 +1,5 @@
 import { config } from '../env';
-import { FastifyHTTPServer } from '../http/fastify-app';
+import { FastifyHTTPServer } from '../http/fastify.js';
 
 export type DIContainer = {
   start: () => void;
