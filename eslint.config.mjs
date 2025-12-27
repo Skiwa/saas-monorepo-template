@@ -43,6 +43,7 @@ export default tseslint.config(
           varsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/prefer-readonly': 'error',
       'no-console': 'off',
       'prefer-const': 'error',
@@ -51,4 +52,3 @@ export default tseslint.config(
   },
   prettierConfig
 );
-

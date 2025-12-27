@@ -3,6 +3,7 @@
   "packageManager": "yarn@4.12.0",
   "private": true,
   "scripts": {
+    "build": "yarn workspaces foreach -A -t run build",
     "eslint": "eslint \"packages/**/*.{ts,tsx}\"",
     "eslint:fix": "eslint \"packages/**/*.{ts,tsx}\" --fix",
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",

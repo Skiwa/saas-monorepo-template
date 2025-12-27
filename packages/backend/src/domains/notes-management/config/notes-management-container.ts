@@ -1,6 +1,7 @@
 import { InMemoryNotesRepository } from '~/infrastructure/in-memory/InMemoryNotesRepository';
 import { NotesRepository } from '../adapters/outbound/NotesRepository';
 import { CreateNote } from '../domain/use-cases/CreateNote';
+import { DeleteNote } from '../domain/use-cases/DeleteNote';
 import { NotesController } from '../adapters/inbound/controllers/NotesController';
 import { NotesManagementPublicRouter } from '../adapters/inbound/routers/PublicRouter';
 import { HTTPServer } from '~/shared/HttpServer';
@@ -16,6 +17,7 @@ export type NotesManagementDependencies = {
 
 export type NotesManagementUseCases = {
   createNote: CreateNote;
+  deleteNote: DeleteNote;
   getAllNotes: GetAllNotes;
 };
 
@@ -36,6 +38,7 @@ const buildDependencies = (): NotesManagementDependencies => ({
 
 const buildUseCases = (deps: NotesManagementDependencies): NotesManagementUseCases => ({
   createNote: new CreateNote(deps),
+  deleteNote: new DeleteNote(deps),
   getAllNotes: new GetAllNotes(deps),
 });
 

@@ -1,6 +1,6 @@
 import { Effect } from 'effect';
 import _ from 'lodash';
-import { V1 } from '@saas-monorepo-template/api-contracts';
+import { V1, NoteIdSchema } from '@saas-monorepo-template/api-contracts';
 import { Context } from '~/shared/HttpServer.js';
 import { NotesManagementUseCases } from '~/domains/notes-management/config/notes-management-container';
 import { NoteTitle } from '~/domains/notes-management/domain/value-objects/NoteTitle';
@@ -43,6 +43,25 @@ export class NotesController extends Controller {
       Effect.map(({ notes }) => ({
         body: {
           data: NoteMapper.manyToDTO(notes),
+        },
+        httpCode: 200,
+      })),
+      this.runEffectToJson(context)
+    );
+  }
+
+  async deleteOne(context: Context): Promise<void> {
+    await Effect.Do.pipe(
+      Effect.bind('id', () =>
+        this.validateSchema({
+          payload: (context.request.params as { id: string }).id,
+          schema: NoteIdSchema,
+        })
+      ),
+      Effect.flatMap(({ id }) => this.useCases.deleteNote.execute({ id })),
+      Effect.map(() => ({
+        body: {
+          message: 'Note deleted successfully',
         },
         httpCode: 200,
       })),

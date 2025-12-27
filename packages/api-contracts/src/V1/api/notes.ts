@@ -1,10 +1,11 @@
 import z from 'zod';
+import { NoteIdSchema } from '../../shared/ids';
 
 export const NoteDTOSchema = z.object({
   content: z.string(),
   createdAt: z.iso.datetime(),
   deletedAt: z.iso.datetime().nullable(),
-  id: z.string(),
+  id: NoteIdSchema,
   title: z.string(),
 });
 
@@ -14,5 +15,4 @@ export const CreateNoteDTOSchema = z.object({
 });
 
 export type NoteDTO = z.infer<typeof NoteDTOSchema>;
-
 export type CreateNoteDTO = z.infer<typeof CreateNoteDTOSchema>;

@@ -16,5 +16,8 @@ export class NotesManagementPublicRouter {
       this.controllers.notesController.createOne(context)
     );
     this.httpServer.get('/notes', (context) => this.controllers.notesController.getAll(context));
+    this.httpServer.delete('/notes/:id', (context) =>
+      this.controllers.notesController.deleteOne(context)
+    );
   }
 }
