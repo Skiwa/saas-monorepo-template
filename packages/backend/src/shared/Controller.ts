@@ -107,33 +107,38 @@ export default abstract class Controller {
       const error = either.left;
       const body = { message: error.message };
 
-      switch (error.constructor.name) {
-        case ValidationError.name:
-          return Effect.succeed({
-            body: {
-              issues: (error as unknown as ValidationError).issues,
-              message: error.message,
-            },
-            httpCode: 400,
-          });
-        case NotFoundError.name:
-          return Effect.succeed({
-            body,
-            httpCode: 404,
-          });
-        case DuplicateError.name:
-          return Effect.succeed({
-            body,
-            httpCode: 409,
-          });
-        case ForbiddenError.name:
-          return Effect.succeed({
-            body,
-            httpCode: 403,
-          });
-        default:
-          return Effect.die(error);
+      if (error instanceof ValidationError) {
+        return Effect.succeed({
+          body: {
+            issues: error.issues,
+            message: error.message,
+          },
+          httpCode: 400,
+        });
       }
+
+      if (error instanceof NotFoundError) {
+        return Effect.succeed({
+          body,
+          httpCode: 404,
+        });
+      }
+
+      if (error instanceof DuplicateError) {
+        return Effect.succeed({
+          body,
+          httpCode: 409,
+        });
+      }
+
+      if (error instanceof ForbiddenError) {
+        return Effect.succeed({
+          body,
+          httpCode: 403,
+        });
+      }
+
+      return Effect.die(error);
     });
   }
 

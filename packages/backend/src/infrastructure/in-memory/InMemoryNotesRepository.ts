@@ -2,6 +2,7 @@ import { Effect } from 'effect';
 import { NoteId } from '@saas-monorepo-template/api-contracts';
 import { NotesRepository } from '~/notes-management/adapters/outbound/NotesRepository';
 import { Note, NoteState } from '~/notes-management/domain/entities/Note';
+import { NoteNotFoundError } from '~/domains/notes-management/domain/errors/NoteNotFoundError';
 
 export class InMemoryNotesRepository implements NotesRepository {
   private readonly notes: Map<NoteId, NoteState> = new Map();
@@ -14,10 +15,10 @@ export class InMemoryNotesRepository implements NotesRepository {
     );
   }
 
-  findOneById(id: NoteId): Effect.Effect<Note | null> {
+  findOneByIdOrFail(id: NoteId): Effect.Effect<Note, NoteNotFoundError> {
     const noteState = this.notes.get(id);
     if (!noteState) {
-      return Effect.succeed(null);
+      return Effect.fail(new NoteNotFoundError(id));
     }
 
     return Effect.succeed(Note.fromState(noteState));

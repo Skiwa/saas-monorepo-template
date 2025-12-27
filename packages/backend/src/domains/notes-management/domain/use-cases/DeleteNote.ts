@@ -2,6 +2,7 @@ import { Effect, pipe } from 'effect';
 import { NoteId } from '@saas-monorepo-template/api-contracts';
 import { NotesManagementDependencies } from '../../config/notes-management-container';
 import PublicUseCase from '~/shared/UseCase';
+import { NoteNotFoundError } from '../errors/NoteNotFoundError';
 
 type DeleteNoteDependencies = Pick<NotesManagementDependencies, 'notesRepository'>;
 
@@ -9,7 +10,7 @@ export type DeleteNoteParams = {
   id: NoteId;
 };
 
-type ExpectedErrors = never;
+type ExpectedErrors = NoteNotFoundError;
 
 export class DeleteNote extends PublicUseCase<DeleteNoteParams, void, ExpectedErrors> {
   constructor(private readonly deps: DeleteNoteDependencies) {
@@ -18,12 +19,8 @@ export class DeleteNote extends PublicUseCase<DeleteNoteParams, void, ExpectedEr
 
   execute(params: DeleteNoteParams): Effect.Effect<void, ExpectedErrors> {
     return pipe(
-      this.deps.notesRepository.findOneById(params.id),
+      this.deps.notesRepository.findOneByIdOrFail(params.id),
       Effect.flatMap((note) => {
-        if (note === null) {
-          return Effect.succeed(undefined);
-        }
-
         note.delete();
         return this.deps.notesRepository.saveOne(note);
       })

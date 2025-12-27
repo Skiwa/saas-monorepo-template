@@ -14,5 +14,11 @@ export const CreateNoteDTOSchema = z.object({
   title: z.string(),
 });
 
+export const UpdateNoteDTOSchema = z.object({
+  content: z.string(),
+  title: z.string(),
+});
+
 export type NoteDTO = z.infer<typeof NoteDTOSchema>;
 export type CreateNoteDTO = z.infer<typeof CreateNoteDTOSchema>;
+export type UpdateNoteDTO = z.infer<typeof UpdateNoteDTOSchema>;

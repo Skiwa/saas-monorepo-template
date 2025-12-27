@@ -46,7 +46,18 @@ export class Note extends BaseEntity<NoteState> {
     return Effect.runSync(NoteTitle.create(this.state.title));
   }
 
-  delete(): void {
+  delete(): this {
     this.state.deletedAt = new Date();
+    return this;
+  }
+
+  setContent(content: NoteContent): this {
+    this.state.content = content.value;
+    return this;
+  }
+
+  setTitle(title: NoteTitle): this {
+    this.state.title = title.value;
+    return this;
   }
 }

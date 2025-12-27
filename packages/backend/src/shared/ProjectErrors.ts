@@ -1,10 +1,15 @@
 import { Data } from 'effect';
 import { ZodIssue } from 'zod';
 
-export class ValidationError extends Data.TaggedError('ValidationError')<{
-  message: string;
+type ErrorProps = {
+  message?: string;
+};
+
+type ValidationErrorProps = ErrorProps & {
   issues: ZodIssue[];
-}> {}
-export class NotFoundError extends Data.TaggedError('NotFoundError')<object> {}
-export class DuplicateError extends Data.TaggedError('DuplicateError')<object> {}
-export class ForbiddenError extends Data.TaggedError('ForbiddenError')<object> {}
+};
+
+export class ValidationError extends Data.TaggedError('ValidationError')<ValidationErrorProps> {}
+export class NotFoundError extends Data.TaggedError('NotFoundError')<ErrorProps> {}
+export class DuplicateError extends Data.TaggedError('DuplicateError')<ErrorProps> {}
+export class ForbiddenError extends Data.TaggedError('ForbiddenError')<ErrorProps> {}
