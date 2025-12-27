@@ -5,10 +5,10 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node"],
+    "types": ["node"]
   },
   "exclude": ["dist", "node_modules"],
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*", "index.ts"],
+  "include": ["src/**/*"],
   "references": [{ "path": "../api-contracts" }]
 }

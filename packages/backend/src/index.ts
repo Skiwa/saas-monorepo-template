@@ -1,5 +1,5 @@
-import { DIContainer } from './src/config/dependency-injections/container.js';
-import { initRealDiContainer } from './src/config/dependency-injections/init-real-di-container.js';
+import { DIContainer } from './config/dependency-injections/container.js';
+import { initRealDiContainer } from './config/dependency-injections/init-real-di-container.js';
 
 let container: DIContainer | undefined;
 try {
@@ -8,6 +8,6 @@ try {
 } catch (error) {
   console.error('🐞 Application failed to start: ', error);
   if (container) {
-    container.stop();
+    void container.stop();
   }
 }

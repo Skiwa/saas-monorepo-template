@@ -1,11 +1,20 @@
 import { config as dotenvConfig } from 'dotenv-safe';
+import { z } from 'zod';
 
 dotenvConfig();
 
-export const config = {
-  isProduction: process.env['NODE_ENV'] === 'production',
+const EnvSchema = z.object({
+  env: z.enum(['development', 'production']),
+  httpServer: z.object({
+    host: z.string(),
+    port: z.coerce.number(),
+  }),
+});
+
+export const config = EnvSchema.parse({
+  env: process.env['SERVER_ENV'],
   httpServer: {
     host: process.env['SERVER_HTTP_HOST'] || 'api.local.localhost',
     port: process.env['SERVER_HTTP_PORT'] || 3003,
   },
-};
+});
