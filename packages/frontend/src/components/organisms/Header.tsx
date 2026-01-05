@@ -17,7 +17,7 @@ export const Header = () => {
               fontWeight: location.pathname === '/' ? 'bold' : 'normal',
             }}
           >
-            Accueil
+            Home
           </Button>
           <Button
             component={Link}

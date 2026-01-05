@@ -1,8 +1,8 @@
 export function HomeTemplate() {
   return (
     <div>
-      <h1>Accueil</h1>
-      <p>Bienvenue sur la page d'accueil</p>
+      <h1>Home</h1>
+      <p>Welcome to the home page</p>
     </div>
   );
 }

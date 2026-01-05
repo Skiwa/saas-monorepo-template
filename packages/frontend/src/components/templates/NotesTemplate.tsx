@@ -1,4 +1,5 @@
 import type { NoteId } from 'api-contracts';
+import { Add } from '@mui/icons-material';
 import type { Note } from '../../core/domain/types/Note';
 import { Note as NoteComponent } from '../atoms/Note';
 
@@ -61,6 +62,9 @@ export function NotesTemplate({
             cursor: 'pointer',
             fontSize: '16px',
             fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#45a049';
@@ -69,11 +73,12 @@ export function NotesTemplate({
             e.currentTarget.style.backgroundColor = '#4CAF50';
           }}
         >
-          Créer une note
+          <Add />
+          Create note
         </button>
       </div>
       {notes.length === 0 ? (
-        <p>Aucune note disponible</p>
+        <p>No notes available</p>
       ) : (
         <div
           style={{

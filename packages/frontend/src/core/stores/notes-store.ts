@@ -40,8 +40,7 @@ export const useNotesStore = create<NotesStore>((set) => {
         const notes: Note[] = await fetchNotes(fetchNotesDependencies);
         set({ notes, isLoading: false });
       } catch (error: unknown) {
-        const errorMessage: string =
-          error instanceof Error ? error.message : 'Une erreur est survenue';
+        const errorMessage: string = error instanceof Error ? error.message : 'An error occurred';
         set({
           error: errorMessage,
           isLoading: false,
@@ -55,8 +54,7 @@ export const useNotesStore = create<NotesStore>((set) => {
         const notes: Note[] = await fetchNotes(fetchNotesDependencies);
         set({ notes, isLoading: false });
       } catch (error: unknown) {
-        const errorMessage: string =
-          error instanceof Error ? error.message : 'Une erreur est survenue';
+        const errorMessage: string = error instanceof Error ? error.message : 'An error occurred';
         set({
           error: errorMessage,
           isLoading: false,
@@ -70,8 +68,7 @@ export const useNotesStore = create<NotesStore>((set) => {
         const notes: Note[] = await fetchNotes(fetchNotesDependencies);
         set({ notes, isLoading: false });
       } catch (error: unknown) {
-        const errorMessage: string =
-          error instanceof Error ? error.message : 'Une erreur est survenue';
+        const errorMessage: string = error instanceof Error ? error.message : 'An error occurred';
         set({
           error: errorMessage,
           isLoading: false,

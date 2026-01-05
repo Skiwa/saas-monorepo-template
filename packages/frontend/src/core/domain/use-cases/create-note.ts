@@ -7,8 +7,8 @@ export interface CreateNoteDependencies {
 
 export async function createNote(deps: CreateNoteDependencies): Promise<void> {
   const dto: V1.api.CreateNoteDTO = {
-    title: 'Nouvelle note',
-    content: 'Contenu de la note',
+    title: 'New note',
+    content: 'Note content',
   };
   await deps.notesGateway.createOne(dto);
 }

@@ -13,7 +13,7 @@ export function Note({ note, deleteNote }: NoteProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const formatDate = (date: Date): string => {
-    return new Intl.DateTimeFormat('fr-FR', {
+    return new Intl.DateTimeFormat('en-US', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -78,7 +78,7 @@ export function Note({ note, deleteNote }: NoteProps) {
             },
             zIndex: 20,
           }}
-          aria-label="Supprimer la note"
+          aria-label="Delete note"
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
@@ -145,10 +145,10 @@ export function Note({ note, deleteNote }: NoteProps) {
         }}
       >
         <div style={{ marginBottom: '4px' }}>
-          <strong>Identifiant:</strong> {note.id}
+          <strong>ID:</strong> {note.id}
         </div>
         <div>
-          <strong>Créé le:</strong> {formatDate(note.createdAt)}
+          <strong>Created:</strong> {formatDate(note.createdAt)}
         </div>
       </div>
     </div>
