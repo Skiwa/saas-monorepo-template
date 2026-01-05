@@ -1,13 +1,7 @@
 {
-  "compilerOptions": {
-    "composite": true,
-    "jsx": "react-jsx",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "types": ["vite/client"]
-  },
-  "exclude": ["dist", "node_modules"],
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
-  "references": [{ "path": "../api-contracts" }]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

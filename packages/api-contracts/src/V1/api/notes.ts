@@ -4,7 +4,6 @@ import { NoteIdSchema } from '../../shared/ids';
 export const NoteDTOSchema = z.object({
   content: z.string(),
   createdAt: z.iso.datetime(),
-  deletedAt: z.iso.datetime().nullable(),
   id: NoteIdSchema,
   title: z.string(),
 });
