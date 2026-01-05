@@ -40,7 +40,7 @@ export const useNotesStore = create<NotesStore>((set) => {
       const notes = await executeUseCaseAndUpdateState({
         key: 'fetchNotesResult',
         set,
-        useCase: () => fetchNotes(container),
+        useCase: () => fetchNotes({}, container),
       });
 
       set((state) => ({ ...state, notes }));
@@ -49,7 +49,7 @@ export const useNotesStore = create<NotesStore>((set) => {
       const createdNote = await executeUseCaseAndUpdateState({
         key: 'createNoteResult',
         set,
-        useCase: () => createNote(container),
+        useCase: () => createNote({}, container),
       });
 
       set((state) => ({ notes: [...state.notes, createdNote] }));

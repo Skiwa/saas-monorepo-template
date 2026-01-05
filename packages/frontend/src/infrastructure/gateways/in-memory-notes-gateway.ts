@@ -4,7 +4,7 @@ import { type V1, type NoteId, createNoteId } from 'api-contracts';
 export class InMemoryNotesGateway implements NotesGateway {
   private readonly notes: Map<NoteId, V1.api.NoteDTO> = new Map();
 
-  createOne(dto: V1.api.CreateNoteDTO): Promise<V1.api.NoteDTO> {
+  async createOne(dto: V1.api.CreateNoteDTO): Promise<V1.api.NoteDTO> {
     const note: V1.api.NoteDTO = {
       content: dto.content,
       createdAt: new Date().toISOString(),
@@ -12,33 +12,35 @@ export class InMemoryNotesGateway implements NotesGateway {
       title: dto.title,
     };
     this.notes.set(note.id, note);
-    return Promise.resolve(note);
+    return note;
   }
 
-  deleteOne(id: NoteId): Promise<void> {
+  async deleteOne(id: NoteId): Promise<void> {
     const note = this.notes.get(id);
     if (!note) {
       throw new Error('Note not found');
     }
     this.notes.delete(id);
-    return Promise.resolve();
   }
 
-  findAll(): Promise<V1.api.NoteDTO[]> {
-    return Promise.resolve(Array.from(this.notes.values()));
+  async findAll(): Promise<V1.api.NoteDTO[]> {
+    return Array.from(this.notes.values());
   }
 
-  findOneById(id: NoteId): Promise<V1.api.NoteDTO | null> {
-    return Promise.resolve(this.notes.get(id) ?? null);
+  async findOneById(id: NoteId): Promise<V1.api.NoteDTO | null> {
+    const note = this.notes.get(id);
+    if (!note) {
+      return null;
+    }
+
+    return note;
   }
 
-  updateOne(id: NoteId, note: V1.api.UpdateNoteDTO): Promise<void> {
+  async updateOne(id: NoteId, note: V1.api.UpdateNoteDTO): Promise<void> {
     const existingNote = this.notes.get(id);
     if (!existingNote) {
       throw new Error('Note not found');
     }
     this.notes.set(id, { ...existingNote, ...note });
-
-    return Promise.resolve();
   }
 }

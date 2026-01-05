@@ -1,11 +1,16 @@
 import type { NoteId } from 'api-contracts';
-import type { NotesGateway } from '../ports/notes-gateway';
+import type { Container } from '../../di/create-real-container';
+import type { UseCase } from '.';
 
-export interface DeleteNoteDependencies {
-  notesGateway: NotesGateway;
-}
+type DeleteNoteDependencies = Pick<Container, 'notesGateway'>;
 
-export async function deleteNote(id: NoteId, deps: DeleteNoteDependencies): Promise<void> {
-  await deps.notesGateway.deleteOne(id);
-}
+type DeleteNoteParams = {
+  id: NoteId;
+};
 
+export const deleteNote: UseCase<DeleteNoteParams, void> = async (
+  { id },
+  { notesGateway }: DeleteNoteDependencies
+): Promise<void> => {
+  await notesGateway.deleteOne(id);
+};

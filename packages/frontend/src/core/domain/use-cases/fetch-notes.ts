@@ -1,12 +1,14 @@
-import type { NotesGateway } from '../ports/notes-gateway';
+import type { Container } from '../../di/create-real-container';
+import type { UseCase } from '.';
 import type { Note } from '../types/Note';
 import { NoteMapper } from '../mappers/note-mapper';
 
-export interface FetchNotesDependencies {
-  notesGateway: NotesGateway;
-}
+type FetchNotesDependencies = Pick<Container, 'notesGateway'>;
 
-export async function fetchNotes(deps: FetchNotesDependencies): Promise<Note[]> {
-  const dtos = await deps.notesGateway.findAll();
+export const fetchNotes: UseCase<void, Note[]> = async (
+  _,
+  { notesGateway }: FetchNotesDependencies
+): Promise<Note[]> => {
+  const dtos = await notesGateway.findAll();
   return NoteMapper.manyToDomain(dtos);
-}
+};

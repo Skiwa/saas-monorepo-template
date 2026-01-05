@@ -1,18 +1,22 @@
 import type { V1 } from 'api-contracts';
-import type { NotesGateway } from '../ports/notes-gateway';
+import type { Container } from '../../di/create-real-container';
+import type { UseCase } from '.';
 import { NoteMapper } from '../mappers/note-mapper';
 import type { Note } from '../types/Note';
 
-export interface CreateNoteDependencies {
-  notesGateway: NotesGateway;
-}
+type CreateNoteDependencies = Pick<Container, 'notesGateway'>;
 
-export async function createNote(deps: CreateNoteDependencies): Promise<Note> {
+type CreateNoteParams = void;
+
+export const createNote: UseCase<CreateNoteParams, Note> = async (
+  _,
+  { notesGateway }: CreateNoteDependencies
+): Promise<Note> => {
   const dto: V1.api.CreateNoteDTO = {
     content: 'Note content',
     title: 'New note',
   };
 
-  const createdDTO = await deps.notesGateway.createOne(dto);
+  const createdDTO = await notesGateway.createOne(dto);
   return NoteMapper.toDomain(createdDTO);
-}
+};
