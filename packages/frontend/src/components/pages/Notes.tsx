@@ -14,9 +14,9 @@ export function Notes() {
     <NotesTemplate
       createNote={createNote}
       deleteNote={deleteNote}
-      notes={notes}
-      isLoading={isLoadingNotes}
       error={errorNotes}
+      isLoading={isLoadingNotes}
+      notes={notes}
     />
   );
 }

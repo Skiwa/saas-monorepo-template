@@ -1,16 +1,18 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { IconButton } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
-import type { NoteId } from 'api-contracts';
 import type { Note } from '../../core/domain/types/Note';
 
 export interface NoteProps {
+  index: number;
   note: Note;
-  deleteNote: (id: NoteId) => Promise<void>;
+  onDeleteClick: () => void;
 }
 
-export function Note({ note, deleteNote }: NoteProps) {
+export function Note({ note, onDeleteClick, index }: NoteProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const rotation = (index % 2) * 2.5;
 
   const formatDate = (date: Date): string => {
     return new Intl.DateTimeFormat('en-US', {
@@ -22,34 +24,30 @@ export function Note({ note, deleteNote }: NoteProps) {
     }).format(date);
   };
 
-  const rotation = useMemo(() => {
-    return (Math.random() - 0.5) * 4;
-  }, []);
-
-  const handleDelete = async (e: React.MouseEvent) => {
+  const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    await deleteNote(note.id);
+    onDeleteClick();
   };
 
   return (
     <div
       style={{
         backgroundColor: '#ffeb3b',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)',
-        padding: '20px',
-        margin: '12px',
-        minWidth: '220px',
-        maxWidth: '280px',
-        minHeight: '220px',
-        transform: `rotate(${rotation}deg)`,
-        position: 'relative',
-        fontFamily: '"Comic Sans MS", "Marker Felt", "Arial", sans-serif',
         border: 'none',
         borderRadius: '2px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)',
+        cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
+        fontFamily: '"Comic Sans MS", "Marker Felt", "Arial", sans-serif',
+        margin: '12px',
+        maxWidth: '280px',
+        minHeight: '220px',
+        minWidth: '220px',
+        padding: '20px',
+        position: 'relative',
+        transform: `rotate(${rotation}deg)`,
         transition: 'transform 0.2s ease',
-        cursor: 'pointer',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = `rotate(${rotation}deg) scale(1.05)`;
@@ -61,21 +59,21 @@ export function Note({ note, deleteNote }: NoteProps) {
         e.currentTarget.style.zIndex = '1';
         setIsHovered(false);
       }}
-      >
+    >
       {isHovered && (
         <IconButton
           onClick={handleDelete}
           size="small"
           sx={{
-            position: 'absolute',
-            top: '4px',
-            right: '4px',
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            color: '#d32f2f',
-            padding: '4px',
             '&:hover': {
               backgroundColor: 'rgba(211, 47, 47, 0.1)',
             },
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            color: '#d32f2f',
+            padding: '4px',
+            position: 'absolute',
+            right: '4px',
+            top: '4px',
             zIndex: 20,
           }}
           aria-label="Delete note"
@@ -86,62 +84,62 @@ export function Note({ note, deleteNote }: NoteProps) {
 
       <div
         style={{
-          position: 'absolute',
-          top: '8px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '40px',
-          height: '4px',
           backgroundColor: 'rgba(0, 0, 0, 0.1)',
           borderRadius: '2px',
+          height: '4px',
+          left: '50%',
+          position: 'absolute',
+          top: '8px',
+          transform: 'translateX(-50%)',
+          width: '40px',
         }}
       />
-      
+
       <div
         style={{
           borderBottom: '2px solid rgba(0, 0, 0, 0.15)',
-          paddingBottom: '10px',
           marginBottom: '14px',
           marginTop: '8px',
+          paddingBottom: '10px',
         }}
       >
         <h3
           style={{
-            margin: 0,
+            color: '#1a1a1a',
             fontSize: '20px',
             fontWeight: 'bold',
-            color: '#1a1a1a',
-            wordBreak: 'break-word',
+            margin: 0,
             textShadow: '0 1px 1px rgba(255, 255, 255, 0.5)',
+            wordBreak: 'break-word',
           }}
         >
           {note.title}
         </h3>
       </div>
-      
+
       <p
         style={{
-          margin: 0,
-          fontSize: '15px',
           color: '#2c2c2c',
-          lineHeight: '1.6',
-          wordBreak: 'break-word',
-          marginBottom: '16px',
           flex: 1,
+          fontSize: '15px',
+          lineHeight: '1.6',
+          margin: 0,
+          marginBottom: '16px',
           overflow: 'hidden',
+          wordBreak: 'break-word',
         }}
       >
         {note.content}
       </p>
-      
+
       <div
         style={{
-          fontSize: '11px',
+          borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
           color: '#666',
+          fontFamily: 'Arial, sans-serif',
+          fontSize: '11px',
           marginTop: 'auto',
           paddingTop: '12px',
-          borderTop: '1px dashed rgba(0, 0, 0, 0.15)',
-          fontFamily: 'Arial, sans-serif',
         }}
       >
         <div style={{ marginBottom: '4px' }}>
@@ -154,4 +152,3 @@ export function Note({ note, deleteNote }: NoteProps) {
     </div>
   );
 }
-

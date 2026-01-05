@@ -4,7 +4,7 @@ import { type V1, type NoteId, createNoteId } from 'api-contracts';
 export class InMemoryNotesGateway implements NotesGateway {
   private readonly notes: Map<NoteId, V1.api.NoteDTO> = new Map();
 
-  createOne(dto: V1.api.CreateNoteDTO): Promise<void> {
+  createOne(dto: V1.api.CreateNoteDTO): Promise<V1.api.NoteDTO> {
     const note: V1.api.NoteDTO = {
       content: dto.content,
       createdAt: new Date().toISOString(),
@@ -12,7 +12,7 @@ export class InMemoryNotesGateway implements NotesGateway {
       title: dto.title,
     };
     this.notes.set(note.id, note);
-    return Promise.resolve();
+    return Promise.resolve(note);
   }
 
   deleteOne(id: NoteId): Promise<void> {

@@ -1,7 +1,7 @@
 import type { V1, NoteId } from 'api-contracts';
 
 export interface NotesGateway {
-  createOne(note: V1.api.CreateNoteDTO): Promise<void>;
+  createOne(note: V1.api.CreateNoteDTO): Promise<V1.api.NoteDTO>;
   deleteOne(id: NoteId): Promise<void>;
   findAll(): Promise<V1.api.NoteDTO[]>;
   findOneById(id: NoteId): Promise<V1.api.NoteDTO | null>;

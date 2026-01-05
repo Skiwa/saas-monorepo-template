@@ -1,14 +1,14 @@
 import { useNotesStore } from '../../core/stores/notes-store';
 
 export function useNotesViewModel() {
-  const { notes, isLoading, error, fetchNotes, createNote, deleteNote } = useNotesStore();
+  const { notes, fetchNotesResult, fetchNotes, createNote, deleteNote } = useNotesStore();
 
   return {
     createNote,
     deleteNote,
-    errorNotes: error,
+    errorNotes: fetchNotesResult.error,
     fetchNotes,
-    isLoadingNotes: isLoading,
+    isLoadingNotes: fetchNotesResult.isLoading,
     notes,
   };
 }
