@@ -584,3 +584,4 @@ class NoteOperations {
 ---
 
 > 💡 **Next Steps**: See a [complete example](./domain-example.md) of how all these DDD concepts work together in the `notes-management` domain, or learn about [data flow](./data-flow.md) through the application.
+

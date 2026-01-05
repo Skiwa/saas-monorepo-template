@@ -291,3 +291,5 @@ graph TB
 ---
 
 > 💡 **Next Steps**: Learn about the [Hexagonal Architecture](./hexagonal-architecture.md) to understand how these layers interact, or explore the [Domain-Driven Design](./domain-driven-design.md) concepts used in this structure.
+
+

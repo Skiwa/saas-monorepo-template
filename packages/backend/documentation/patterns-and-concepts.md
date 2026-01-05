@@ -529,3 +529,5 @@ class Note {
 
 > 💡 **Next Steps**: See how these patterns work together in the [Domain Example](./domain-example.md), or explore the [technologies](./technologies.md) that enable these patterns.
 
+
+

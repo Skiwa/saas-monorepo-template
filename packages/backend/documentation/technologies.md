@@ -24,12 +24,14 @@ This document provides a comprehensive overview of all technologies, libraries, 
 **Purpose:** Type-safe JavaScript with static type checking
 
 **Why TypeScript?**
+
 - ✅ **Type Safety** - Catch errors at compile time
 - ✅ **Better IDE Support** - Autocomplete, refactoring, navigation
 - ✅ **Self-Documenting** - Types serve as documentation
 - ✅ **Scalability** - Easier to maintain large codebases
 
 **Usage:**
+
 - All source code is written in TypeScript
 - Strict type checking enabled
 - ES modules with `.js` extensions in imports
@@ -40,6 +42,7 @@ This document provides a comprehensive overview of all technologies, libraries, 
 **Purpose:** JavaScript runtime environment
 
 **Why Node.js?**
+
 - ✅ **Fast Execution** - V8 engine performance
 - ✅ **Rich Ecosystem** - Large package ecosystem
 - ✅ **Async I/O** - Non-blocking operations
@@ -51,6 +54,7 @@ This document provides a comprehensive overview of all technologies, libraries, 
 **Purpose:** High-performance HTTP web framework
 
 **Why Fastify?**
+
 - ✅ **Performance** - One of the fastest Node.js frameworks
 - ✅ **TypeScript Support** - Excellent TypeScript integration
 - ✅ **Plugin System** - Extensible architecture
@@ -58,16 +62,18 @@ This document provides a comprehensive overview of all technologies, libraries, 
 - ✅ **Low Overhead** - Minimal framework overhead
 
 **Usage:**
+
 - HTTP server implementation
 - Request/response handling
 - Route registration
 - Health check endpoints
 
 **Example:**
+
 ```typescript
 // config/http/fastify.ts
 const fastify = Fastify({
-  logger: true
+  logger: true,
 });
 
 fastify.post('/notes', async (request, reply) => {
@@ -83,12 +89,14 @@ fastify.post('/notes', async (request, reply) => {
 **Purpose:** TypeScript execution engine
 
 **Why tsx?**
+
 - ✅ **Direct Execution** - Run TypeScript without compilation
 - ✅ **Fast Startup** - Faster than `ts-node`
 - ✅ **Watch Mode** - Hot reload during development
 - ✅ **ESM Support** - Native ES modules support
 
 **Usage:**
+
 ```bash
 # Development with hot reload
 yarn dev  # Uses: tsx watch src/index.ts
@@ -103,11 +111,13 @@ yarn start  # Uses: tsx src/index.ts
 **Purpose:** Pretty logger for Pino (Fastify's logger)
 
 **Why pino-pretty?**
+
 - ✅ **Readable Logs** - Human-readable log output
 - ✅ **Colorized** - Color-coded log levels
 - ✅ **Development Friendly** - Better developer experience
 
 **Usage:**
+
 - Development environment logging
 - Pretty-printed request/response logs
 
@@ -117,11 +127,13 @@ yarn start  # Uses: tsx src/index.ts
 **Purpose:** Environment variable management
 
 **Why dotenv-safe?**
+
 - ✅ **Validation** - Ensures required variables are set
 - ✅ **Type Safety** - Validates environment variables
 - ✅ **Error Messages** - Clear errors for missing variables
 
 **Usage:**
+
 ```typescript
 // config/env/index.ts
 import { config as dotenvConfig } from 'dotenv-safe';
@@ -144,6 +156,7 @@ const EnvSchema = z.object({
 **Purpose:** Functional programming library for TypeScript
 
 **Why Effect?**
+
 - ✅ **Type-Safe Errors** - Errors are part of the type system
 - ✅ **Composable** - Chain operations with `pipe`
 - ✅ **No Exceptions** - All errors are explicit
@@ -151,6 +164,7 @@ const EnvSchema = z.object({
 - ✅ **Functional Style** - Immutable, pure functions
 
 **Key Features:**
+
 - `Effect.Effect<A, E>` - Represents computations that can fail
 - `Effect.pipe()` - Compose operations
 - `Effect.Do` - Do notation for sequential operations
@@ -168,12 +182,13 @@ const note = Effect.Effect<Note, NoteNotFoundError>;
 // Composing effects
 pipe(
   repository.findOneById(id),
-  Effect.map(note => note.setTitle(newTitle)),
-  Effect.flatMap(note => repository.saveOne(note))
+  Effect.map((note) => note.setTitle(newTitle)),
+  Effect.flatMap((note) => repository.saveOne(note))
 );
 ```
 
 **Benefits in Our Architecture:**
+
 - Use cases return `Effect.Effect<Response, Error>`
 - Errors are typed and explicit
 - No thrown exceptions
@@ -185,6 +200,7 @@ pipe(
 **Purpose:** TypeScript-first schema validation
 
 **Why Zod?**
+
 - ✅ **Type Inference** - Automatically infers TypeScript types
 - ✅ **Runtime Validation** - Validates data at runtime
 - ✅ **Type Safety** - TypeScript types from schemas
@@ -209,7 +225,7 @@ type NoteTitleProps = z.infer<typeof NoteTitleSchema>;
 // controllers/NotesController.ts
 const validPayload = await validateSchema({
   payload: context.request.body,
-  schema: V1.api.CreateNoteDTOSchema
+  schema: V1.api.CreateNoteDTOSchema,
 });
 ```
 
@@ -231,6 +247,7 @@ const EnvSchema = z.object({
 ### Runtime Validation
 
 **Zod** provides runtime validation for:
+
 - ✅ Value objects (NoteTitle, NoteContent)
 - ✅ Request payloads (DTOs)
 - ✅ Environment variables
@@ -239,6 +256,7 @@ const EnvSchema = z.object({
 ### Compile-Time Type Safety
 
 **TypeScript** provides compile-time safety for:
+
 - ✅ Function parameters and returns
 - ✅ Entity state
 - ✅ Use case inputs/outputs
@@ -249,27 +267,27 @@ const EnvSchema = z.object({
 
 ### Production Dependencies
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `@saas-monorepo-template/api-contracts` | `workspace:*` | Shared API contracts |
-| `dotenv` | ^17.2.3 | Environment variables |
-| `dotenv-safe` | ^9.1.0 | Safe environment variables |
-| `effect` | ^3.19.13 | Functional programming |
-| `fastify` | ^5.6.2 | HTTP server |
-| `lodash` | ^4.17.21 | Utility functions |
-| `shallow-equal` | ^3.1.0 | Shallow equality checks |
+| Package         | Version       | Purpose                    |
+| --------------- | ------------- | -------------------------- |
+| `api-contracts` | `workspace:*` | Shared API contracts       |
+| `dotenv`        | ^17.2.3       | Environment variables      |
+| `dotenv-safe`   | ^9.1.0        | Safe environment variables |
+| `effect`        | ^3.19.13      | Functional programming     |
+| `fastify`       | ^5.6.2        | HTTP server                |
+| `lodash`        | ^4.17.21      | Utility functions          |
+| `shallow-equal` | ^3.1.0        | Shallow equality checks    |
 
 ### Development Dependencies
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `@types/dotenv-safe` | ^9 | TypeScript types |
-| `@types/lodash` | ^4 | TypeScript types |
-| `@types/node` | ^25.0.3 | Node.js types |
-| `pino-pretty` | ^13.1.3 | Log formatting |
-| `tsx` | ^4.21.0 | TypeScript execution |
-| `typescript` | ^5.9.3 | TypeScript compiler |
-| `zod` | ^4.2.1 | Schema validation |
+| Package              | Version | Purpose              |
+| -------------------- | ------- | -------------------- |
+| `@types/dotenv-safe` | ^9      | TypeScript types     |
+| `@types/lodash`      | ^4      | TypeScript types     |
+| `@types/node`        | ^25.0.3 | Node.js types        |
+| `pino-pretty`        | ^13.1.3 | Log formatting       |
+| `tsx`                | ^4.21.0 | TypeScript execution |
+| `typescript`         | ^5.9.3  | TypeScript compiler  |
+| `zod`                | ^4.2.1  | Schema validation    |
 
 ## Technology Choices
 
@@ -278,6 +296,7 @@ const EnvSchema = z.object({
 #### TypeScript + Effect + Zod
 
 This combination provides:
+
 - **Type Safety** - TypeScript for compile-time
 - **Runtime Safety** - Zod for runtime validation
 - **Error Handling** - Effect for functional error handling
@@ -286,6 +305,7 @@ This combination provides:
 #### Fastify
 
 Chosen for:
+
 - **Performance** - One of the fastest frameworks
 - **TypeScript** - Excellent TypeScript support
 - **Simplicity** - Simple, focused API
@@ -294,6 +314,7 @@ Chosen for:
 #### Effect
 
 Chosen for:
+
 - **Functional Style** - Aligns with DDD principles
 - **Type Safety** - Errors are part of types
 - **Composability** - Easy to chain operations
@@ -354,7 +375,7 @@ Use cases leverage Effect for type-safe operations:
 class CreateNote extends PublicUseCase<
   CreateNoteParams,
   Note,
-  ExpectedErrors  // Typed errors
+  ExpectedErrors // Typed errors
 > {
   execute(params: CreateNoteParams): Effect.Effect<Note, ExpectedErrors> {
     // Type-safe implementation
@@ -381,7 +402,7 @@ if (input.length < 1 || input.length > 200) {
 
 ```typescript
 // ✅ Good - Effect with typed errors
-Effect.Effect<Note, NoteNotFoundError>
+Effect.Effect<Note, NoteNotFoundError>;
 
 // ❌ Bad - Thrown exceptions
 throw new NoteNotFoundError(id);
@@ -432,4 +453,3 @@ fastify.post('/notes', handler);
 ---
 
 > 💡 **Next Steps**: Review the [Patterns & Concepts](./patterns-and-concepts.md) to see how these technologies enable the architectural patterns, or explore the [Domain Example](./domain-example.md) to see them in action.
-

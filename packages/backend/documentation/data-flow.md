@@ -28,7 +28,7 @@ sequenceDiagram
     participant Entity
     participant Repository
     participant Infrastructure
-    
+
     Client->>Router: HTTP POST /notes
     Router->>Controller: createOne(context)
     Controller->>Controller: Validate payload
@@ -53,6 +53,7 @@ sequenceDiagram
 The HTTP server (Fastify) receives the request and routes it based on the URL pattern.
 
 **Entry Point:**
+
 ```typescript
 // config/http/fastify.ts
 this.fastify.post('/notes', async (request, reply) => {
@@ -113,6 +114,7 @@ The controller receives the request context and processes it:
 ```
 
 **Controller Responsibilities:**
+
 1. ✅ **Validate input** - Validate request payload against schema
 2. ✅ **Create value objects** - Transform validated data into domain value objects
 3. ✅ **Call use case** - Execute business logic via use case
@@ -138,6 +140,7 @@ The use case orchestrates the business operation:
 ```
 
 **Use Case Responsibilities:**
+
 1. ✅ **Create entity** - Use entity factory method
 2. ✅ **Persist entity** - Save via repository
 3. ✅ **Return result** - Return created entity wrapped in Effect
@@ -159,6 +162,7 @@ The entity encapsulates business logic:
 ```
 
 **Entity Responsibilities:**
+
 1. ✅ **Initialize state** - Set initial values
 2. ✅ **Generate ID** - Create unique identifier
 3. ✅ **Set timestamps** - Record creation time
@@ -178,6 +182,7 @@ The repository interface is called, which delegates to infrastructure:
 ```
 
 **Repository Responsibilities:**
+
 1. ✅ **Serialize entity** - Convert entity to state
 2. ✅ **Persist data** - Save to storage (database, memory, etc.)
 3. ✅ **Return result** - Return success/failure via Effect
@@ -204,9 +209,7 @@ Content-Type: application/json
 
 ```typescript
 // Router receives request
-httpServer.post('/notes', (context) => 
-  notesController.createOne(context)
-);
+httpServer.post('/notes', (context) => notesController.createOne(context));
 ```
 
 #### 3. Controller Validates and Processes
@@ -214,8 +217,8 @@ httpServer.post('/notes', (context) =>
 ```typescript
 // Controller validates payload
 const validPayload = await validateSchema({
-  payload: { title: "My First Note", content: "..." },
-  schema: CreateNoteDTOSchema
+  payload: { title: 'My First Note', content: '...' },
+  schema: CreateNoteDTOSchema,
 });
 
 // Create value objects
@@ -272,7 +275,7 @@ sequenceDiagram
     participant UseCase
     participant Repository
     participant Entity
-    
+
     Controller->>UseCase: execute(params)
     UseCase->>Repository: findOneByIdOrFail(id)
     Repository-->>UseCase: Effect.fail(NoteNotFoundError)
@@ -283,13 +286,13 @@ sequenceDiagram
 
 ### Error Types and Handling
 
-| Error Type | Source | HTTP Status | Example |
-|------------|--------|-------------|---------|
-| `ValidationError` | Value Object creation | 400 | Invalid title length |
-| `NoteNotFoundError` | Repository lookup | 404 | Note ID doesn't exist |
-| `DuplicateError` | Business rule | 409 | Note already exists |
-| `ForbiddenError` | Authorization | 403 | Insufficient permissions |
-| Internal Error | Unexpected | 500 | System error |
+| Error Type          | Source                | HTTP Status | Example                  |
+| ------------------- | --------------------- | ----------- | ------------------------ |
+| `ValidationError`   | Value Object creation | 400         | Invalid title length     |
+| `NoteNotFoundError` | Repository lookup     | 404         | Note ID doesn't exist    |
+| `DuplicateError`    | Business rule         | 409         | Note already exists      |
+| `ForbiddenError`    | Authorization         | 403         | Insufficient permissions |
+| Internal Error      | Unexpected            | 500         | System error             |
 
 ### Error Mapping
 
@@ -342,7 +345,7 @@ After the use case completes, the response flows back:
 
 ```typescript
 // Use case returns Effect with entity
-Effect.succeed(note)
+Effect.succeed(note);
 ```
 
 ### 2. Controller Maps to DTO
@@ -364,9 +367,9 @@ const dto = NoteMapper.toDTO(note);
 const response = {
   body: {
     message: 'Note created successfully',
-    data: dto
+    data: dto,
   },
-  httpCode: 201
+  httpCode: 201,
 };
 ```
 
@@ -374,10 +377,7 @@ const response = {
 
 ```typescript
 // Controller sends JSON response
-await context.reply
-  .status(201)
-  .type('application/json')
-  .send(response.body);
+await context.reply.status(201).type('application/json').send(response.body);
 ```
 
 ## Complete Flow Diagram
@@ -401,7 +401,7 @@ graph TB
     Error400 --> Response
     Error404 --> Response
     Error409 --> Response
-    
+
     style Start fill:#e1f5ff
     style Success fill:#e1ffe1
     style Error400 fill:#ffe1e1
@@ -415,6 +415,7 @@ graph TB
 ### ✅ Separation of Concerns
 
 Each layer has a clear responsibility:
+
 - **Router** - Routes requests
 - **Controller** - Validates input, maps output
 - **Use Case** - Orchestrates business logic
@@ -424,6 +425,7 @@ Each layer has a clear responsibility:
 ### ✅ Type Safety
 
 TypeScript and Effect ensure type safety throughout:
+
 - Value objects validate at creation
 - Use cases have typed parameters and returns
 - Errors are typed and handled explicitly
@@ -431,6 +433,7 @@ TypeScript and Effect ensure type safety throughout:
 ### ✅ Functional Error Handling
 
 Effect provides composable error handling:
+
 - Errors are part of the type system
 - No exceptions thrown
 - Errors propagate through Effect chain
@@ -438,6 +441,7 @@ Effect provides composable error handling:
 ### ✅ Testability
 
 Each layer can be tested independently:
+
 - Controllers can be tested with mock use cases
 - Use cases can be tested with in-memory repositories
 - Entities can be tested in isolation
@@ -445,4 +449,3 @@ Each layer can be tested independently:
 ---
 
 > 💡 **Next Steps**: Explore the [Patterns & Concepts](./patterns-and-concepts.md) to understand the design patterns used, or see a [complete domain example](./domain-example.md) with all components working together.
-

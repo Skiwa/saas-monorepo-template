@@ -563,3 +563,5 @@ The domain is **independent** of:
 
 > 💡 **Next Steps**: Learn how this architecture is combined with [Domain-Driven Design](./domain-driven-design.md) principles, or see a [complete example](./domain-example.md) of how these layers work together.
 
+
+
