@@ -1,4 +1,4 @@
-import { V1 } from '@saas-monorepo-template/api-contracts';
+import { V1 } from 'api-contracts';
 import { Note } from '../domain/entities/Note';
 
 export class NoteMapper {
@@ -8,7 +8,6 @@ export class NoteMapper {
     const dto: V1.api.NoteDTO = {
       content: state.content,
       createdAt: state.createdAt.toISOString(),
-      deletedAt: state.deletedAt?.toISOString() ?? null,
       id: state.id,
       title: state.title,
     };

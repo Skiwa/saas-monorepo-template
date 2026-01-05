@@ -1,4 +1,4 @@
-import { NoteId } from '@saas-monorepo-template/api-contracts';
+import { NoteId } from 'api-contracts';
 import { NotFoundError } from '~/shared/ProjectErrors';
 
 export class NoteNotFoundError extends NotFoundError {

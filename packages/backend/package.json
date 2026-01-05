@@ -17,7 +17,7 @@
     "zod": "^4.2.1"
   },
   "dependencies": {
-    "@saas-monorepo-template/api-contracts": "workspace:*",
+    "api-contracts": "workspace:*",
     "dotenv": "^17.2.3",
     "dotenv-safe": "^9.1.0",
     "effect": "^3.19.13",

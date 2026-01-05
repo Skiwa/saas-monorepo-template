@@ -1,5 +1,5 @@
 import { Effect, pipe } from 'effect';
-import { NoteId } from '@saas-monorepo-template/api-contracts';
+import { NoteId } from 'api-contracts';
 import { NotesManagementDependencies } from '../../config/notes-management-container';
 import PublicUseCase from '~/shared/UseCase';
 import { NoteNotFoundError } from '../errors/NoteNotFoundError';

@@ -1,6 +1,6 @@
 import { Effect } from 'effect';
 import _ from 'lodash';
-import { V1, NoteIdSchema } from '@saas-monorepo-template/api-contracts';
+import { V1, NoteIdSchema } from 'api-contracts';
 import { Context } from '~/shared/HttpServer.js';
 import { NotesManagementUseCases } from '~/domains/notes-management/config/notes-management-container';
 import { NoteTitle } from '~/domains/notes-management/domain/value-objects/NoteTitle';

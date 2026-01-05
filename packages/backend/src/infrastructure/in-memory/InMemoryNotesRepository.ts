@@ -1,5 +1,5 @@
 import { Effect } from 'effect';
-import { NoteId } from '@saas-monorepo-template/api-contracts';
+import { NoteId } from 'api-contracts';
 import { NotesRepository } from '~/notes-management/adapters/outbound/NotesRepository';
 import { Note, NoteState } from '~/notes-management/domain/entities/Note';
 import { NoteNotFoundError } from '~/domains/notes-management/domain/errors/NoteNotFoundError';

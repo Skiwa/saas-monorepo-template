@@ -3,7 +3,7 @@ import { BaseEntity } from '~/shared/Entity.js';
 import { NoteTitle, NoteTitleSchema } from '../value-objects/NoteTitle';
 import { NoteContent, NoteContentSchema } from '../value-objects/NoteContent';
 import { Effect } from 'effect/index';
-import { createNoteId, NoteIdSchema } from '@saas-monorepo-template/api-contracts';
+import { createNoteId, NoteIdSchema } from 'api-contracts';
 
 const NoteStateSchema = z.object({
   content: NoteContentSchema,
