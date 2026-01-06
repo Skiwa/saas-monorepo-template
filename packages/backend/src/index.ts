@@ -4,7 +4,7 @@ import { initRealDiContainer } from './config/dependency-injections/init-real-di
 let container: DIContainer | undefined;
 try {
   container = initRealDiContainer();
-  container.start();
+  void container.start();
 } catch (error) {
   console.error('🐞 Application failed to start: ', error);
   if (container) {

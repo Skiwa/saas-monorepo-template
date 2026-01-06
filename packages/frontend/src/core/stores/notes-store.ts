@@ -36,20 +36,11 @@ const container = getContainer();
 export const useNotesStore = create<NotesStore>((set) => {
   const store: NotesStore = {
     ...INITIAL_STATE,
-    fetchNotes: async (): Promise<void> => {
-      const notes = await executeUseCaseAndUpdateState({
-        key: 'fetchNotesResult',
-        set,
-        useCase: () => fetchNotes({}, container),
-      });
-
-      set((state) => ({ ...state, notes }));
-    },
     createNote: async (): Promise<void> => {
       const createdNote = await executeUseCaseAndUpdateState({
         key: 'createNoteResult',
         set,
-        useCase: () => createNote({}, container),
+        useCase: () => createNote(undefined, container),
       });
 
       set((state) => ({ notes: [...state.notes, createdNote] }));
@@ -58,10 +49,19 @@ export const useNotesStore = create<NotesStore>((set) => {
       await executeUseCaseAndUpdateState({
         key: 'deleteNoteResult',
         set,
-        useCase: () => deleteNote(id, container),
+        useCase: () => deleteNote({ id }, container),
       });
 
       set((state) => ({ notes: state.notes.filter((note) => note.id !== id) }));
+    },
+    fetchNotes: async (): Promise<void> => {
+      const notes = await executeUseCaseAndUpdateState({
+        key: 'fetchNotesResult',
+        set,
+        useCase: () => fetchNotes(undefined, container),
+      });
+
+      set((state) => ({ ...state, notes }));
     },
   };
   return store;

@@ -13,6 +13,6 @@ export interface HTTPServer {
   post(path: string, handler: RouteHandler): void;
   put(path: string, handler: RouteHandler): void;
   setupHealthCheckRoutes: () => void;
-  start: () => void;
+  start: () => Promise<void>;
   stop: () => Promise<void>;
 }

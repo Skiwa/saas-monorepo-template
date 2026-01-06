@@ -1,5 +1,6 @@
 import type { NotesGateway } from '../domain/ports/notes-gateway';
-import { InMemoryNotesGateway } from '../../infrastructure/gateways/in-memory-notes-gateway';
+import { ApiNotesGateway } from '../../infrastructure/gateways/api-notes-gateway';
+import { config } from '../../config';
 
 export type Container = {
   notesGateway: NotesGateway;
@@ -13,7 +14,7 @@ function createRealContainer(): Container {
   }
 
   containerInstance = {
-    notesGateway: new InMemoryNotesGateway(),
+    notesGateway: new ApiNotesGateway({ apiUrl: config.API_URL }),
   };
 
   return containerInstance;

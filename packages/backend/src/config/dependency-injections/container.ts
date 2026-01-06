@@ -3,7 +3,7 @@ import { FastifyHTTPServer } from '../http/fastify.js';
 import { notesManagementContainer } from '~/domains/notes-management/config/notes-management-container';
 
 export type DIContainer = {
-  start: () => void;
+  start: () => Promise<void>;
   stop: () => Promise<void>;
 };
 
@@ -19,8 +19,8 @@ export const container = (): DIContainer => {
 
   const publicRouters = [notesManagement.publicRouter];
 
-  const start = (): void => {
-    httpServer.start();
+  const start = async (): Promise<void> => {
+    await httpServer.start();
     publicRouters.forEach((router) => router.registerRoutes());
   };
 

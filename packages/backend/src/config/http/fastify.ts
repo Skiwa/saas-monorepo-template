@@ -1,3 +1,4 @@
+import cors from '@fastify/cors';
 import Fastify, { FastifyInstance } from 'fastify';
 import { HTTPServer, RouteHandler } from '~/shared/HttpServer.js';
 
@@ -28,7 +29,12 @@ export class FastifyHTTPServer implements HTTPServer {
     });
   }
 
-  start(): void {
+  async start(): Promise<void> {
+    await this.fastify.register(cors, {
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    });
+
     this.fastify.listen({ host: this.params.host, port: this.params.port }, (err, address) => {
       if (err) {
         this.fastify.log.error(err);

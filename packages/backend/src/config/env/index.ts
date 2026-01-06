@@ -14,7 +14,7 @@ const EnvSchema = z.object({
 export const config = EnvSchema.parse({
   env: process.env['SERVER_ENV'],
   httpServer: {
-    host: process.env['SERVER_HTTP_HOST'] || 'api.local.localhost',
-    port: process.env['SERVER_HTTP_PORT'] || 3003,
+    host: process.env['SERVER_HTTP_HOST'],
+    port: process.env['SERVER_HTTP_PORT'],
   },
 });

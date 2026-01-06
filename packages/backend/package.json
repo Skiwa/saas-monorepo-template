@@ -17,6 +17,7 @@
     "zod": "^4.2.1"
   },
   "dependencies": {
+    "@fastify/cors": "^11.2.0",
     "api-contracts": "workspace:*",
     "dotenv": "^17.2.3",
     "dotenv-safe": "^9.1.0",
